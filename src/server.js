@@ -10,6 +10,8 @@ const quotes = [
   "Success is not final, failure is not fatal: it is the courage to continue that counts.",
   "The only way to do great work is to love what you do.",
   "It always seems impossible until it's done.",
+  "The future depends on what you do today.",
+  "Success is built one small step at a time.",
 ];
 
 const client = new Client({
