@@ -13,6 +13,7 @@ import { handleHelp } from "./commands/help.command.js";
 import {
   handleAddAssignment,
   handleAssignments,
+  handleDeadline,
 } from "./commands/assignment.command.js";
 
 import { connectDB } from "./config/db.js";
@@ -59,6 +60,9 @@ client.on("messageCreate", (message) => {
   }
   if (message.content === "!assignments") {
     handleAssignments(message);
+  }
+  if (message.content.startsWith("!deadline")) {
+    handleDeadline(message);
   }
 
   if (message.content === "!help") {

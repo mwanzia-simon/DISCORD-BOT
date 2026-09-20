@@ -29,3 +29,13 @@ export async function getAssignments(userID) {
   });
   return assignments;
 }
+
+// function to get asignment by number
+export async function getAssignmentByNumber(userId, assignmentNumber) {
+  const assignment = await Assignment.findOne({
+    user: userId,
+    assignmentNumber,
+  });
+
+  return assignment;
+}

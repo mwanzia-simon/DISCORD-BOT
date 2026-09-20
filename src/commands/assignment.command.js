@@ -2,7 +2,9 @@ import { assignmentSchema } from "../validations/assignment.validation.js";
 import {
   addAssignment,
   getAssignments,
+  getAssignmentByNumber
 } from "../services/assignment.service.js";
+import { differenceInCalendarDays, format } from "date-fns";
 
 // A handler for adding assignments
 export async function handleAddAssignment(message) {
@@ -53,4 +55,55 @@ export async function handleAssignments(message) {
     .join("\n\n");
 
   message.reply(`📚 **Your Assignments**\n\n${assignmentList}`);
+}
+
+
+// Function to get assignment deadline
+export async function handleDeadline(message) {
+  const assignmentNumber = Number(
+    message.content.slice("!deadline".length).trim()
+  );
+
+  if (!Number.isInteger(assignmentNumber) || assignmentNumber <= 0) {
+    message.reply(
+      "❌ Please provide a valid assignment number.\nExample: `!deadline 1`"
+    );
+    return;
+  }
+
+  const assignment = await getAssignmentByNumber(
+    message.author.id,
+    assignmentNumber
+  );
+
+  if (!assignment) {
+    message.reply("❌ Assignment not found.");
+    return;
+  }
+
+  const daysRemaining = differenceInCalendarDays(
+    assignment.dueDate,
+    new Date()
+  );
+
+  const formattedDate = format(
+    assignment.dueDate,
+    "MMMM d, yyyy"
+  );
+
+  let deadlineMessage;
+
+  if (daysRemaining > 1) {
+    deadlineMessage = `⏳ Due in ${daysRemaining} days`;
+  } else if (daysRemaining === 1) {
+    deadlineMessage = "⏳ Due tomorrow";
+  } else if (daysRemaining === 0) {
+    deadlineMessage = "⚠️ Due today";
+  } else {
+    deadlineMessage = `🔴 Overdue by ${Math.abs(daysRemaining)} days`;
+  }
+
+  message.reply(
+    `📅 **${assignment.title}**\n\n${deadlineMessage}\n\n📆 ${formattedDate}`
+  );
 }
