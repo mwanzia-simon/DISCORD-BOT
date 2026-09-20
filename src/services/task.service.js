@@ -20,18 +20,18 @@ export async function addTask(title, userID) {
   return task;
 }
 
-export function getTasks() {
+// Function to get all the tasks from the database
+export async function getTasks(userID) {
+  const tasks = await Task.find({ user: userID }).sort({ taskNumber: 1 });
   return tasks;
 }
 
-export function completeTask(id) {
-  const task = tasks.find((task) => task.id === id);
-
-  if (!task) {
-    return null;
-  }
-
-  task.completed = true;
+export async function completeTask(userID, taskNumber) {
+  const task = await Task.findOneAndUpdate(
+    { user: userID, taskNumber },
+    { completed: true },
+    { returnDocument: "after" },
+  );
 
   return task;
 }

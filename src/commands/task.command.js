@@ -15,13 +15,13 @@ export async function handleAddTask(message) {
     return;
   }
 
-  const task = await addTask(title,message.author.id);
+  const task = await addTask(title, message.author.id);
 
   message.reply(`✅ Task added!\n\n📚 **${task.title}**`);
 }
 
-export function handleTasks(message) {
-  const tasks = getTasks();
+export async function handleTasks(message) {
+  const tasks = await getTasks(message.author.id);
 
   // Checking if the user has tasks
   if (tasks.length === 0) {
@@ -33,32 +33,33 @@ export function handleTasks(message) {
   const taskList = tasks
     .map((task) => {
       const status = task.completed ? "✅" : "⏳";
-      return `${status} **${task.id}.** ${task.title}`;
+      return `${status} **${task.taskNumber}.** ${task.title}`;
     })
     .join("\n\n");
 
   message.reply(`📋 **Your Tasks**\n\n${taskList}`);
 }
 
-export function handleDone(message) {
-  const id = Number(message.content.slice("!done".length).trim());
+// Function to mark a task as completed
+export async function handleDone(message) {
+  const taskNumber = Number(message.content.slice("!done".length).trim());
 
   // If the user does not provide a task id
-  if (!id) {
-    message.reply("❌ Please provide a task ID.\nExample: `!done 1`");
+  if (!taskNumber) {
+    message.reply("❌ Please provide a task number.\nExample: `!done 1`");
     return;
   }
-  const task = completeTask(id);
+  const task = await completeTask(message.author.id, taskNumber);
 
   // If the task with that id does not exist
   if (!task) {
     message.reply("❌ Task not found.");
     return;
   }
-
   message.reply(`✅ Task completed!\n\n📚 **${task.title}**`);
 }
 
+// Function to delete a task
 export function handleDelete(message) {
   const id = Number(message.content.slice("!delete".length).trim());
 
