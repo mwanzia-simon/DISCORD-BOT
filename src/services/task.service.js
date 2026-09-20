@@ -37,15 +37,11 @@ export async function completeTask(userID, taskNumber) {
 }
 
 // A function to delete the tasks
-export function deleteTask(id) {
-  const taskIndex = tasks.findIndex((task) => task.id === id);
+export async function deleteTask(userID, taskNumber) {
+  const task = await Task.findOneAndDelete({
+    user: userID,
+    taskNumber,
+  });
 
-  if (taskIndex === -1) {
-    return null;
-  }
-
-  const deleteTask = tasks[taskIndex];
-
-  tasks.splice(taskIndex, 1);
-  return deleteTask;
+  return task;
 }

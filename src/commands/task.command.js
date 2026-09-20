@@ -60,15 +60,15 @@ export async function handleDone(message) {
 }
 
 // Function to delete a task
-export function handleDelete(message) {
-  const id = Number(message.content.slice("!delete".length).trim());
+export async function handleDelete(message) {
+  const taskNumber = Number(message.content.slice("!delete".length).trim());
 
-  if (!id) {
-    message.reply("❌ Please provide a task ID.\nExample: `!delete 1`");
+  if (!taskNumber) {
+    message.reply("❌ Please provide a task number.\nExample: `!delete 1`");
     return;
   }
 
-  const task = deleteTask(id);
+  const task = await deleteTask(message.author.id, taskNumber);
 
   if (!task) {
     message.reply("❌ Task not found.");
