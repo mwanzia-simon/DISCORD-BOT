@@ -6,6 +6,7 @@ import {
   handleAddTask,
   handleTasks,
   handleDone,
+  handleDelete,
 } from "./commands/task.command.js";
 
 const client = new Client({
@@ -17,7 +18,7 @@ const client = new Client({
   ],
 });
 
-client.once("clientReady", (client) => { 
+client.once("clientReady", (client) => {
   console.log(`✅ Logged in as ${client.user.tag}`);
 });
 
@@ -38,6 +39,9 @@ client.on("messageCreate", (message) => {
   }
   if (message.content.startsWith("!done")) {
     handleDone(message);
+  }
+  if (message.content.startsWith("!delete")) {
+    handleDelete(message);
   }
 });
 

@@ -1,4 +1,9 @@
-import { addTask, getTasks, completeTask } from "../services/task.service.js";
+import {
+  addTask,
+  getTasks,
+  completeTask,
+  deleteTask,
+} from "../services/task.service.js";
 
 export function handleAddTask(message) {
   const title = message.content.slice("!addtask".length).trim();
@@ -52,4 +57,22 @@ export function handleDone(message) {
   }
 
   message.reply(`✅ Task completed!\n\n📚 **${task.title}**`);
+}
+
+export function handleDelete(message) {
+  const id = Number(message.content.slice("!delete".length).trim());
+
+  if (!id) {
+    message.reply("❌ Please provide a task ID.\nExample: `!delete 1`");
+    return;
+  }
+
+  const task = deleteTask(id);
+
+  if (!task) {
+    message.reply("❌ Task not found.");
+    return;
+  }
+
+  message.reply(`🗑️ Task deleted!\n\n📚 **${task.title}**`);
 }
