@@ -10,6 +10,7 @@ import {
 } from "./commands/task.command.js";
 
 import { handleHelp } from "./commands/help.command.js";
+import { handleAddAssignment } from "./commands/assignment.command.js";
 
 import { connectDB } from "./config/db.js";
 
@@ -34,6 +35,7 @@ client.on("messageCreate", (message) => {
     message.reply("Hello, my name is Neuron! 👋");
   }
 
+  // Handling the tasks feature
   if (message.content === "!tasks") {
     handleTasks(message);
   }
@@ -47,6 +49,12 @@ client.on("messageCreate", (message) => {
   if (message.content.startsWith("!delete")) {
     handleDelete(message);
   }
+
+  // Handling assignment feature
+  if (message.content.startsWith("!addassignment")) {
+    handleAddAssignment(message);
+  }
+
   if (message.content === "!help") {
     handleHelp(message);
   }
