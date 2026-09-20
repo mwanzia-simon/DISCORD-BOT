@@ -5,7 +5,7 @@ import {
   deleteTask,
 } from "../services/task.service.js";
 
-export function handleAddTask(message) {
+export async function handleAddTask(message) {
   const title = message.content.slice("!addtask".length).trim();
 
   if (!title) {
@@ -15,7 +15,7 @@ export function handleAddTask(message) {
     return;
   }
 
-  const task = addTask(title);
+  const task = await addTask(title,message.author.id);
 
   message.reply(`✅ Task added!\n\n📚 **${task.title}**`);
 }

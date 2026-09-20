@@ -1,15 +1,21 @@
+import Task from "../models/Task.js";
+
 const tasks = [];
 let nextTaskId = 1;
 
-export function addTask(title) {
-  const task = {
-    id: nextTaskId,
-    title,
-    completed: false,
-  };
+// Function to add tasks to database
+export async function addTask(title, userID) {
+  const lastTask = await Task.findOne({ user: userID }).sort({
+    taskNumber: -1,
+  });
 
-  tasks.push(task);
-  nextTaskId++;
+  const taskNumber = lastTask ? lastTask.taskNumber + 1 : 1;
+
+  const task = await Task.create({
+    user: userID,
+    taskNumber,
+    title,
+  });
 
   return task;
 }
