@@ -15,3 +15,15 @@ export function addTask(title) {
 export function getTasks() {
   return tasks;
 }
+
+export function completeTask(id) {
+  const task = tasks.find((task) => task.id === id);
+
+  if (!task) {
+    return null;
+  }
+
+  task.completed = true;
+
+  return task;
+}

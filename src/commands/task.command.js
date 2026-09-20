@@ -1,4 +1,4 @@
-import { addTask, getTasks } from "../services/task.service.js";
+import { addTask, getTasks, completeTask } from "../services/task.service.js";
 
 export function handleAddTask(message) {
   const title = message.content.slice("!addtask".length).trim();
@@ -33,4 +33,23 @@ export function handleTasks(message) {
     .join("\n\n");
 
   message.reply(`📋 **Your Tasks**\n\n${taskList}`);
+}
+
+export function handleDone(message) {
+  const id = Number(message.content.slice("!done".length).trim());
+
+  // If the user does not provide a task id
+  if (!id) {
+    message.reply("❌ Please provide a task ID.\nExample: `!done 1`");
+
+    const task = completeTask(id);
+
+    // If the task with that id does not exist
+    if (!task) {
+      message.reply("❌ Task not found.");
+      return;
+    }
+
+    message.reply(`✅ Task completed!\n\n📚 **${task.title}**`);
+  }
 }

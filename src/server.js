@@ -2,7 +2,11 @@ import "dotenv/config";
 import os from "node:os";
 import { exec } from "node:child_process";
 import { Client, GatewayIntentBits } from "discord.js";
-import { handleAddTask, handleTasks } from "./commands/task.command.js";
+import {
+  handleAddTask,
+  handleTasks,
+  handleDone,
+} from "./commands/task.command.js";
 
 const client = new Client({
   intents: [
@@ -31,6 +35,9 @@ client.on("messageCreate", (message) => {
 
   if (message.content.startsWith("!addtask")) {
     handleAddTask(message);
+  }
+  if (message.content.startsWith("!done")) {
+    handleDone(message);
   }
 });
 
