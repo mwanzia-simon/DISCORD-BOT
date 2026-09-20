@@ -4,6 +4,7 @@ import {
   completeTask,
   deleteTask,
 } from "../services/task.service.js";
+import { taskNumberSchema } from "../validations/task.validation.js";
 
 export async function handleAddTask(message) {
   const title = message.content.slice("!addtask".length).trim();
@@ -44,11 +45,13 @@ export async function handleTasks(message) {
 export async function handleDone(message) {
   const taskNumber = Number(message.content.slice("!done".length).trim());
 
-  // If the user does not provide a task id
-  if (!taskNumber) {
-    message.reply("❌ Please provide a task number.\nExample: `!done 1`");
+  const { error } = taskNumberSchema.validate(taskNumber);
+
+  if (error) {
+    message.reply("❌ Please provide a valid task number.\nExample: `!done 1`");
     return;
   }
+
   const task = await completeTask(message.author.id, taskNumber);
 
   // If the task with that id does not exist
@@ -62,9 +65,10 @@ export async function handleDone(message) {
 // Function to delete a task
 export async function handleDelete(message) {
   const taskNumber = Number(message.content.slice("!delete".length).trim());
+  const { error } = taskNumberSchema.validate(taskNumber);
 
-  if (!taskNumber) {
-    message.reply("❌ Please provide a task number.\nExample: `!delete 1`");
+  if (error) {
+    message.reply("❌ Please provide a valid task number.\nExample: `!done 1`");
     return;
   }
 
