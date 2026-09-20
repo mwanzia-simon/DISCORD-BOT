@@ -1,13 +1,15 @@
 const tasks = [];
+let nextTaskId = 1;
 
 export function addTask(title) {
   const task = {
-    id: tasks.length + 1,
+    id: nextTaskId,
     title,
     completed: false,
   };
 
   tasks.push(task);
+  nextTaskId++;
 
   return task;
 }
