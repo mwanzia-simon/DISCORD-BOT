@@ -9,6 +9,8 @@ import {
   handleDelete,
 } from "./commands/task.command.js";
 
+import { handleHelp } from "./commands/help.command.js";
+
 import { connectDB } from "./config/db.js";
 
 const client = new Client({
@@ -44,6 +46,9 @@ client.on("messageCreate", (message) => {
   }
   if (message.content.startsWith("!delete")) {
     handleDelete(message);
+  }
+  if (message.content === "!help") {
+    handleHelp(message);
   }
 });
 
