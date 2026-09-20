@@ -1,6 +1,10 @@
 import { assignmentSchema } from "../validations/assignment.validation.js";
-import { addAssignment } from "../services/assignment.service.js";
+import {
+  addAssignment,
+  getAssignments,
+} from "../services/assignment.service.js";
 
+// A handler for adding assignments
 export async function handleAddAssignment(message) {
   const input = message.content.slice("!addassignment".length).trim();
 
@@ -29,4 +33,24 @@ export async function handleAddAssignment(message) {
   message.reply(
     `✅ Assignment added!\n\n📚 **${assignment.title}**\n\n 📅 Due: ${assignment.dueDate.toDateString()}`,
   );
+}
+
+// A handler for getting all assignments
+export async function handleAssignments(message) {
+  const assignments = await getAssignments(message.author.id);
+
+  if (assignments.length === 0) {
+    message.reply("📚 You don't have any assignments yet!");
+    return;
+  }
+
+  const assignmentList = assignments
+    .map((assignment) => {
+      const status = assignment.completed ? "✅" : "⏳";
+
+      return `${status} **#${assignment.assignmentNumber}** ${assignment.title}\n\n📅 Due: ${assignment.dueDate.toDateString()}`;
+    })
+    .join("\n\n");
+
+  message.reply(`📚 **Your Assignments**\n\n${assignmentList}`);
 }

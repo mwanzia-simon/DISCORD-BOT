@@ -10,7 +10,10 @@ import {
 } from "./commands/task.command.js";
 
 import { handleHelp } from "./commands/help.command.js";
-import { handleAddAssignment } from "./commands/assignment.command.js";
+import {
+  handleAddAssignment,
+  handleAssignments,
+} from "./commands/assignment.command.js";
 
 import { connectDB } from "./config/db.js";
 
@@ -53,6 +56,9 @@ client.on("messageCreate", (message) => {
   // Handling assignment feature
   if (message.content.startsWith("!addassignment")) {
     handleAddAssignment(message);
+  }
+  if (message.content === "!assignments") {
+    handleAssignments(message);
   }
 
   if (message.content === "!help") {
