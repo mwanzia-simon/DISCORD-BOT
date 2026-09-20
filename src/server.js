@@ -2,7 +2,7 @@ import "dotenv/config";
 import os from "node:os";
 import { exec } from "node:child_process";
 import { Client, GatewayIntentBits } from "discord.js";
-import { handleAddTask } from "./commands/task.command.js";
+import { handleAddTask, handleTasks } from "./commands/task.command.js";
 
 const client = new Client({
   intents: [
@@ -23,6 +23,10 @@ client.on("messageCreate", (message) => {
 
   if (message.content === "!hello") {
     message.reply("Hello, my name is Neuron! 👋");
+  }
+
+  if (message.content === "!tasks") {
+    handleTasks(message);
   }
 
   if (message.content.startsWith("!addtask")) {
