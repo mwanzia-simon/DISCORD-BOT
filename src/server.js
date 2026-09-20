@@ -9,6 +9,8 @@ import {
   handleDelete,
 } from "./commands/task.command.js";
 
+import { connectDB } from "./config/db.js";
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -45,4 +47,5 @@ client.on("messageCreate", (message) => {
   }
 });
 
+await connectDB();
 client.login(process.env.BOT_TOKEN);
