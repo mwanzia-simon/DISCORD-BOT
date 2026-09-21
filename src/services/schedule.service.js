@@ -26,3 +26,12 @@ export async function addClass(
 
   return schedule;
 }
+
+// Function to print the week timetable
+export async function getSchedule(userId) {
+  const schedule = await Schedule.find({
+    user: userId,
+  });
+
+  return schedule;
+}
