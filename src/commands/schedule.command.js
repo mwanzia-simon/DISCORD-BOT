@@ -88,3 +88,42 @@ export async function handleSchedule(message) {
 
   message.reply(`📅 **Your Weekly Schedule**\n\n${scheduleList}`);
 }
+
+// Function to get the next class
+export async function handleToday(message) {
+  const schedule = await getSchedule(message.author.id);
+
+  if (schedule.length === 0) {
+    message.reply("📅 You don't have any classes scheduled yet!");
+    return;
+  }
+
+  const today = format(new Date(), "EEEE");
+
+  const todayClasses = schedule
+    .filter((classItem) => classItem.day === today)
+    .sort((a, b) =>
+      a.startTime.localeCompare(b.startTime)
+    );
+
+  if (todayClasses.length === 0) {
+    message.reply(
+      `📅 **Today's Schedule — ${today}**\n\n` +
+      "🎉 You don't have any classes today!"
+    );
+    return;
+  }
+
+  const classList = todayClasses
+    .map(
+      (classItem) =>
+        `🕐 **${classItem.startTime} - ${classItem.endTime}**\n` +
+        `📚 ${classItem.course}\n` +
+        `📍 ${classItem.location || "Location not specified"}`
+    )
+    .join("\n\n");
+
+  message.reply(
+    `📅 **Today's Schedule — ${today}**\n\n${classList}`
+  );
+}
