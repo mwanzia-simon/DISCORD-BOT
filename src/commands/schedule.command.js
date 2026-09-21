@@ -1,5 +1,6 @@
 import { scheduleSchema } from "../validations/schedule.validation.js";
 import { addClass, getSchedule } from "../services/schedule.service.js";
+import { format } from "date-fns";
 
 // Function to handle adding classes
 export async function handleAddClass(message) {
