@@ -1,6 +1,4 @@
 import "dotenv/config";
-import os from "node:os";
-import { exec } from "node:child_process";
 import { Client, GatewayIntentBits } from "discord.js";
 import {
   handleAddTask,
@@ -15,6 +13,8 @@ import {
   handleAssignments,
   handleDeadline,
 } from "./commands/assignment.command.js";
+
+import { handleAddClass } from "./commands/schedule.command.js";
 
 import { connectDB } from "./config/db.js";
 
@@ -63,6 +63,11 @@ client.on("messageCreate", (message) => {
   }
   if (message.content.startsWith("!deadline")) {
     handleDeadline(message);
+  }
+
+  // functions to handle class scheduling
+  if (message.content.startsWith("!addclass")) {
+    handleAddClass(message);
   }
 
   if (message.content === "!help") {

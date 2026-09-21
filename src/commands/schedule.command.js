@@ -36,9 +36,9 @@ export async function handleAddClass(message) {
 
   message.reply(
     `✅ Class added!\n\n` +
-      `📚 **${schedule.course}**\n` +
-      `📅 ${schedule.day}\n` +
-      `🕐 ${schedule.startTime} - ${schedule.endTime}\n` +
+      `📚 **${schedule.course}**\n\n` +
+      `📅 ${schedule.day}\n\n` +
+      `🕐 ${schedule.startTime} - ${schedule.endTime}\n\n` +
       `📍 ${schedule.location || "Location not specified"}`,
   );
 }
