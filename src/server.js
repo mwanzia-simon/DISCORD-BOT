@@ -21,6 +21,8 @@ import {
   handleNextClass,
 } from "./commands/schedule.command.js";
 
+import { handleAddReminder } from "./commands/reminder.command.js";
+
 import { connectDB } from "./config/db.js";
 
 const client = new Client({
@@ -82,6 +84,10 @@ client.on("messageCreate", (message) => {
   }
   if (message.content === "!nextclass") {
     handleNextClass(message);
+  }
+  // Reminder functions
+  if (message.content.startsWith("!remind")) {
+    handleAddReminder(message);
   }
   if (message.content === "!help") {
     handleHelp(message);
