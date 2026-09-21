@@ -127,3 +127,85 @@ export async function handleToday(message) {
     `📅 **Today's Schedule — ${today}**\n\n${classList}`
   );
 }
+
+// Function to get the next class
+export async function handleNextClass(message) {
+  const schedule = await getSchedule(message.author.id);
+
+  if (schedule.length === 0) {
+    message.reply("📅 You don't have any classes scheduled yet!");
+    return;
+  }
+
+  const now = new Date();
+
+  const today = format(now, "EEEE");
+
+  const currentTime = format(now, "HH:mm");
+
+  const dayOrder = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
+  const todayClasses = schedule
+    .filter(
+      (classItem) =>
+        classItem.day === today &&
+        classItem.startTime > currentTime
+    )
+    .sort((a, b) =>
+      a.startTime.localeCompare(b.startTime)
+    );
+
+  if (todayClasses.length > 0) {
+    const nextClass = todayClasses[0];
+
+    message.reply(
+      `🎓 **Next Class**\n\n` +
+      `📚 **${nextClass.course}**\n` +
+      `🕐 ${nextClass.startTime} - ${nextClass.endTime}\n` +
+      `📍 ${nextClass.location || "Location not specified"}`
+    );
+
+    return;
+  }
+
+  const todayIndex = dayOrder.indexOf(today);
+
+  const futureClasses = schedule
+    .map((classItem) => ({
+      ...classItem.toObject(),
+      dayIndex: dayOrder.indexOf(classItem.day),
+    }))
+    .filter((classItem) => classItem.dayIndex > todayIndex)
+    .sort((a, b) => {
+      if (a.dayIndex !== b.dayIndex) {
+        return a.dayIndex - b.dayIndex;
+      }
+
+      return a.startTime.localeCompare(b.startTime);
+    });
+
+  if (futureClasses.length === 0) {
+    message.reply(
+      "🎓 You don't have any upcoming classes in your schedule."
+    );
+    return;
+  }
+
+  const nextClass = futureClasses[0];
+
+  message.reply(
+    `🎓 **Next Class**\n\n` +
+    `📚 **${nextClass.course}**\n` +
+    `📅 ${nextClass.day}\n` +
+    `🕐 ${nextClass.startTime} - ${nextClass.endTime}\n` +
+    `📍 ${nextClass.location || "Location not specified"}`
+  );
+}
