@@ -1,5 +1,5 @@
 import { scheduleSchema } from "../validations/schedule.validation.js";
-import { addClass } from "../services/schedule.service.js";
+import { addClass, getSchedule } from "../services/schedule.service.js";
 
 // Function to handle adding classes
 export async function handleAddClass(message) {
@@ -41,4 +41,49 @@ export async function handleAddClass(message) {
       `🕐 ${schedule.startTime} - ${schedule.endTime}\n\n` +
       `📍 ${schedule.location || "Location not specified"}`,
   );
+}
+
+// function to get the week schedule
+export async function handleSchedule(message) {
+  const schedule = await getSchedule(message.author.id);
+
+  // if the user has not added schedule
+  if (schedule.length === 0) {
+    message.reply("📅 You don't have any classes scheduled yet!");
+    return;
+  }
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+  const scheduleList = days
+    .map((day) => {
+      const classes = schedule
+        .filter((classItem) => classItem.day === day)
+        .sort((a, b) => a.startTime.localeCompare(b.startTime));
+
+      if (classes.length === 0) {
+        return null;
+      }
+
+      const classList = classes
+        .map(
+          (classItem) =>
+            `🕐 **${classItem.startTime} - ${classItem.endTime}**\n` +
+            `📚 ${classItem.course}\n` +
+            `📍 ${classItem.location || "Location not specified"}`,
+        )
+        .join("\n\n");
+
+      return `**${day}**\n${classList}`;
+    })
+    .filter(Boolean)
+    .join("\n\n");
+
+  message.reply(`📅 **Your Weekly Schedule**\n\n${scheduleList}`);
 }
