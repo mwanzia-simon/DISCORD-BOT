@@ -14,7 +14,11 @@ import {
   handleDeadline,
 } from "./commands/assignment.command.js";
 
-import { handleAddClass, handleSchedule } from "./commands/schedule.command.js";
+import {
+  handleAddClass,
+  handleSchedule,
+  handleToday,
+} from "./commands/schedule.command.js";
 
 import { connectDB } from "./config/db.js";
 
@@ -71,6 +75,9 @@ client.on("messageCreate", (message) => {
   }
   if (message.content === "!schedule") {
     handleSchedule(message);
+  }
+  if (message.content === "!today") {
+    handleToday(message);
   }
   if (message.content === "!help") {
     handleHelp(message);
