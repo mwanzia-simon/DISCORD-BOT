@@ -18,6 +18,7 @@ import {
   handleAddClass,
   handleSchedule,
   handleToday,
+  handleNextClass,
 } from "./commands/schedule.command.js";
 
 import { connectDB } from "./config/db.js";
@@ -78,6 +79,9 @@ client.on("messageCreate", (message) => {
   }
   if (message.content === "!today") {
     handleToday(message);
+  }
+  if (message.content === "!nextclass") {
+    handleNextClass(message);
   }
   if (message.content === "!help") {
     handleHelp(message);

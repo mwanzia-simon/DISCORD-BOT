@@ -1,6 +1,6 @@
 import { scheduleSchema } from "../validations/schedule.validation.js";
 import { addClass, getSchedule } from "../services/schedule.service.js";
-import { format } from "date-fns";
+import { addDays, differenceInMinutes, format, parse } from "date-fns";
 
 // Function to handle adding classes
 export async function handleAddClass(message) {
@@ -89,7 +89,7 @@ export async function handleSchedule(message) {
   message.reply(`📅 **Your Weekly Schedule**\n\n${scheduleList}`);
 }
 
-// Function to get the next class
+// Function to get the classes for today
 export async function handleToday(message) {
   const schedule = await getSchedule(message.author.id);
 
@@ -102,14 +102,12 @@ export async function handleToday(message) {
 
   const todayClasses = schedule
     .filter((classItem) => classItem.day === today)
-    .sort((a, b) =>
-      a.startTime.localeCompare(b.startTime)
-    );
+    .sort((a, b) => a.startTime.localeCompare(b.startTime));
 
   if (todayClasses.length === 0) {
     message.reply(
       `📅 **Today's Schedule — ${today}**\n\n` +
-      "🎉 You don't have any classes today!"
+        "🎉 You don't have any classes today!",
     );
     return;
   }
@@ -119,13 +117,11 @@ export async function handleToday(message) {
       (classItem) =>
         `🕐 **${classItem.startTime} - ${classItem.endTime}**\n` +
         `📚 ${classItem.course}\n` +
-        `📍 ${classItem.location || "Location not specified"}`
+        `📍 ${classItem.location || "Location not specified"}`,
     )
     .join("\n\n");
 
-  message.reply(
-    `📅 **Today's Schedule — ${today}**\n\n${classList}`
-  );
+  message.reply(`📅 **Today's Schedule — ${today}**\n\n${classList}`);
 }
 
 // Function to get the next class
@@ -139,10 +135,6 @@ export async function handleNextClass(message) {
 
   const now = new Date();
 
-  const today = format(now, "EEEE");
-
-  const currentTime = format(now, "HH:mm");
-
   const dayOrder = [
     "Monday",
     "Tuesday",
@@ -153,59 +145,68 @@ export async function handleNextClass(message) {
     "Sunday",
   ];
 
-  const todayClasses = schedule
-    .filter(
-      (classItem) =>
-        classItem.day === today &&
-        classItem.startTime > currentTime
-    )
-    .sort((a, b) =>
-      a.startTime.localeCompare(b.startTime)
-    );
-
-  if (todayClasses.length > 0) {
-    const nextClass = todayClasses[0];
-
-    message.reply(
-      `🎓 **Next Class**\n\n` +
-      `📚 **${nextClass.course}**\n` +
-      `🕐 ${nextClass.startTime} - ${nextClass.endTime}\n` +
-      `📍 ${nextClass.location || "Location not specified"}`
-    );
-
-    return;
-  }
-
+  const today = format(now, "EEEE");
   const todayIndex = dayOrder.indexOf(today);
 
-  const futureClasses = schedule
-    .map((classItem) => ({
-      ...classItem.toObject(),
-      dayIndex: dayOrder.indexOf(classItem.day),
-    }))
-    .filter((classItem) => classItem.dayIndex > todayIndex)
-    .sort((a, b) => {
-      if (a.dayIndex !== b.dayIndex) {
-        return a.dayIndex - b.dayIndex;
+  const upcomingClasses = schedule
+    .map((classItem) => {
+      const classDayIndex = dayOrder.indexOf(classItem.day);
+
+      let daysUntil = classDayIndex - todayIndex;
+
+      if (daysUntil < 0) {
+        daysUntil += 7;
       }
 
-      return a.startTime.localeCompare(b.startTime);
-    });
+      let classDate = parse(
+        `${format(addDays(now, daysUntil), "yyyy-MM-dd")} ${classItem.startTime}`,
+        "yyyy-MM-dd HH:mm",
+        now
+      );
 
-  if (futureClasses.length === 0) {
-    message.reply(
-      "🎓 You don't have any upcoming classes in your schedule."
-    );
-    return;
+      // If today's class has already started/passed,
+      // look at its occurrence next week.
+      if (classDate <= now) {
+        classDate = addDays(classDate, 7);
+      }
+
+      return {
+        classItem,
+        classDate,
+      };
+    })
+    .sort((a, b) => a.classDate - b.classDate);
+
+  const nextClass = upcomingClasses[0];
+
+  const minutesUntil = differenceInMinutes(
+    nextClass.classDate,
+    now
+  );
+
+  let countdown;
+
+  if (minutesUntil < 1) {
+    countdown = "⏳ Starts in less than a minute";
+  } else if (minutesUntil < 60) {
+    countdown = `⏳ Starts in ${minutesUntil} minutes`;
+  } else {
+    const hours = Math.floor(minutesUntil / 60);
+    const minutes = minutesUntil % 60;
+
+    if (minutes === 0) {
+      countdown = `⏳ Starts in ${hours}h`;
+    } else {
+      countdown = `⏳ Starts in ${hours}h ${minutes}m`;
+    }
   }
-
-  const nextClass = futureClasses[0];
 
   message.reply(
     `🎓 **Next Class**\n\n` +
-    `📚 **${nextClass.course}**\n` +
-    `📅 ${nextClass.day}\n` +
-    `🕐 ${nextClass.startTime} - ${nextClass.endTime}\n` +
-    `📍 ${nextClass.location || "Location not specified"}`
+    `📚 **${nextClass.classItem.course}**\n` +
+    `📅 ${nextClass.classItem.day}\n` +
+    `🕐 ${nextClass.classItem.startTime} - ${nextClass.classItem.endTime}\n` +
+    `📍 ${nextClass.classItem.location || "Location not specified"}\n\n` +
+    `${countdown}`
   );
 }
