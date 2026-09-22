@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { Client, GatewayIntentBits } from "discord.js";
+import { startReminderScheduler } from "./services/reminder.scheduler.js";
 import {
   handleAddTask,
   handleTasks,
@@ -36,6 +37,7 @@ const client = new Client({
 
 client.once("clientReady", (client) => {
   console.log(`✅ Logged in as ${client.user.tag}`);
+  startReminderScheduler(client);
 });
 
 client.on("messageCreate", (message) => {
