@@ -244,10 +244,9 @@ Neuron is still being actively developed. Planned features include:
 * [ ] Notes
 * [ ] Expense/budget tracking
 * [ ] Campus events and information
-* [ ] AI-powered study assistance
 * [ ] Web dashboard
 * [ ] Improved command system
-* [ ] Deployment so multiple students can use Neuron
+
 
 ##  Project Goal
 
@@ -257,4 +256,4 @@ The goal is to make everyday academic organization easier by bringing useful stu
 
 ---
 
-**Built with Node.js, MongoDB, Discord.js and a lot of debugging. 🚀**
+**Built with Node.js, MongoDB, Discord.js and a lot of debugging. **
