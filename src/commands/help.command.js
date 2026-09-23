@@ -8,17 +8,24 @@ export function handleHelp(message) {
 \`!done <number>\` — Complete a task
 \`!delete <number>\` — Delete a task
 
-📅 **Coming Soon**
-Assignments
-Schedule
-Reminders
-Study tracking
+📝 **Assignments**
+\`!addassignment <title> <date>\` — Add an assignment
+\`!assignments\` — View your assignments
+\`!deadline <number>\` — Check an assignment deadline
 
-💡 **Example**
+⏰ **Reminders**
+\`!remind <time> <message>\` — Set a reminder
+\`!reminders\` — View active reminders
+
+💡 **Examples**
+
 \`!addtask Finish OOP assignment\`
-\`!tasks\`
-\`!done 1\`
-\`!delete 2\`
+
+\`!addassignment Database project 2026-09-25\`
+
+\`!addclass Database Systems | Monday | 10:00 | 12:00 | Room B204\`
+
+\`!remind 30m Study OOP
 `
   );
 }
