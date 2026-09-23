@@ -1,12 +1,12 @@
-# 🧠 Neuron
+#  Neuron
 
 **Neuron** is a Discord-based student productivity bot designed to help university students manage their everyday academic tasks directly from Discord.
 
 It helps students keep track of **tasks, assignments, deadlines, class schedules, and reminders** without needing to leave their Discord server.
 
-## ✨ Features
+##  Features
 
-### 📚 Task Management
+###  Task Management
 
 * Add tasks
 * View your tasks
@@ -14,14 +14,14 @@ It helps students keep track of **tasks, assignments, deadlines, class schedules
 * Delete tasks
 * Tasks are stored persistently in MongoDB
 
-### 📝 Assignment Management
+###  Assignment Management
 
 * Add assignments with due dates
 * View upcoming assignments
 * Check how much time is left before a deadline
 * Track assignment completion
 
-### 📅 Class Schedule
+###  Class Schedule
 
 * Add classes to your weekly schedule
 * View your complete weekly schedule
@@ -29,14 +29,14 @@ It helps students keep track of **tasks, assignments, deadlines, class schedules
 * Find your next upcoming class
 * See a countdown until the next class
 
-### ⏰ Reminders
+###  Reminders
 
 * Create time-based reminders
 * View active reminders
 * Receive automatic Discord DMs when reminders are due
 * Reminders are processed automatically using a background scheduler
 
-## 🤖 Commands
+##  Commands
 
 ### General
 
@@ -44,7 +44,7 @@ It helps students keep track of **tasks, assignments, deadlines, class schedules
 | ------- | ----------------------- |
 | `!help` | Show available commands |
 
-### 📚 Tasks
+###  Tasks
 
 | Command            | Description              |
 | ------------------ | ------------------------ |
@@ -62,7 +62,7 @@ Example:
 !delete 2
 ```
 
-### 📝 Assignments
+###  Assignments
 
 | Command                         | Description                  |
 | ------------------------------- | ---------------------------- |
@@ -78,7 +78,7 @@ Example:
 !deadline 1
 ```
 
-### 📅 Schedule
+###  Schedule
 
 | Command               | Description               |
 | --------------------- | ------------------------- |
@@ -96,7 +96,7 @@ Example:
 !nextclass
 ```
 
-### ⏰ Reminders
+###  Reminders
 
 | Command                    | Description           |
 | -------------------------- | --------------------- |
@@ -119,7 +119,7 @@ Supported time formats:
 1d  → 1 day
 ```
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 * **Node.js** — Runtime
 * **JavaScript** — Programming language
@@ -131,7 +131,7 @@ Supported time formats:
 * **node-cron** — Background reminder scheduling
 * **dotenv** — Environment variable management
 
-## 📁 Project Structure
+##  Project Structure
 
 ```text
 src/
@@ -165,7 +165,7 @@ src/
 └── server.js
 ```
 
-## ⚙️ Getting Started
+##  Getting Started
 
 ### 1. Clone the repository
 
@@ -203,7 +203,7 @@ MongoDB connected successfully
 ⏰ Reminder scheduler started.
 ```
 
-## 🧠 Architecture
+##  Architecture
 
 Neuron follows a simple layered structure that separates different responsibilities:
 
@@ -249,7 +249,7 @@ Neuron is still being actively developed. Planned features include:
 * [ ] Improved command system
 * [ ] Deployment so multiple students can use Neuron
 
-## 🎯 Project Goal
+##  Project Goal
 
 Neuron started as a simple Discord bot learning project and is gradually evolving into a practical **student productivity assistant**.
 
