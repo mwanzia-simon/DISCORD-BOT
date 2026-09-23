@@ -235,7 +235,7 @@ Mark reminder as completed
 
 This separation keeps Discord interaction, business logic, database operations, and validation from becoming tightly coupled.
 
-## 🚧 Future Plans
+##  Future Plans
 
 Neuron is still being actively developed. Planned features include:
 
