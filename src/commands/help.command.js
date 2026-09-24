@@ -18,13 +18,9 @@ export function handleHelp(message) {
 \`!reminders\` — View active reminders
 
 💡 **Examples**
-
 \`!addtask Finish OOP assignment\`
-
 \`!addassignment Database project 2026-09-25\`
-
 \`!addclass Database Systems | Monday | 10:00 | 12:00 | Room B204\`
-
 \`!remind 30m Study OOP\`
 `
   );
