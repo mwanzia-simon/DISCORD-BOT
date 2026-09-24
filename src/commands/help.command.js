@@ -25,7 +25,7 @@ export function handleHelp(message) {
 
 \`!addclass Database Systems | Monday | 10:00 | 12:00 | Room B204\`
 
-\`!remind 30m Study OOP
+\`!remind 30m Study OOP\`
 `
   );
 }
