@@ -99,6 +99,7 @@ client.on("messageCreate", (message) => {
 
 await connectDB();
 console.log("BOT_TOKEN:", process.env.BOT_TOKEN ? "Loaded ✅" : "Missing ❌");
+console.log("🚀 Attempting Discord login...");
 try {
   await client.login(process.env.BOT_TOKEN);
   console.log("🤖 Discord login successful!");
