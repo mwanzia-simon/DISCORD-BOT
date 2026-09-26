@@ -4,7 +4,7 @@ import http from "http";
 import { startReminderScheduler } from "./services/reminder.scheduler.js";
 import {
   handleAddTask,
-  handleTasks,
+  handleTasks, 
   handleDone,
   handleDelete,
 } from "./commands/task.command.js";
@@ -99,6 +99,9 @@ client.on("messageCreate", (message) => {
 
 await connectDB();
 client.login(process.env.BOT_TOKEN);
+
+console.log("BOT_TOKEN:", process.env.BOT_TOKEN ? "Loaded ✅" : "Missing ❌");
+console.log("MONGO_URI:", process.env.MONGO_URI ? "Loaded ✅" : "Missing ❌");
 
 const PORT = process.env.PORT || 3000;
 
