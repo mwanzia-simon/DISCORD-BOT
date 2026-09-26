@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { Client, GatewayIntentBits } from "discord.js";
+import http from "http";
 import { startReminderScheduler } from "./services/reminder.scheduler.js";
 import {
   handleAddTask,
@@ -98,3 +99,17 @@ client.on("messageCreate", (message) => {
 
 await connectDB();
 client.login(process.env.BOT_TOKEN);
+
+const PORT = process.env.PORT || 3000;
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, {
+    "Content-Type": "text/plain",
+  });
+
+  res.end("Neuron is running!");
+});
+
+server.listen(PORT, () => {
+  console.log(`🌐 HTTP server running on port ${PORT}`);
+});
