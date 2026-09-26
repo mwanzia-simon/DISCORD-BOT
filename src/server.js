@@ -98,14 +98,6 @@ client.on("messageCreate", (message) => {
 });
 
 await connectDB();
-console.log("BOT_TOKEN:", process.env.BOT_TOKEN ? "Loaded ✅" : "Missing ❌");
-console.log("🚀 Attempting Discord login...");
-try {
-  await client.login(process.env.BOT_TOKEN);
-  console.log("🤖 Discord login successful!");
-} catch (error) {
-  console.error("❌ Discord login failed:", error);
-}
 
 const PORT = process.env.PORT || 3000;
 
@@ -120,3 +112,14 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, () => {
   console.log(`🌐 HTTP server running on port ${PORT}`);
 });
+
+console.log("🚀 Attempting Discord login...");
+
+client
+  .login(process.env.BOT_TOKEN)
+  .then(() => {
+    console.log("🤖 Discord login successful!");
+  })
+  .catch((error) => {
+    console.error("❌ Discord login failed:", error);
+  });
