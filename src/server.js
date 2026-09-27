@@ -115,6 +115,11 @@ server.listen(PORT, () => {
 
 console.log("🚀 Attempting Discord login...");
 
+console.log(
+  "BOT_TOKEN length:",
+  process.env.BOT_TOKEN?.length
+);
+
 client
   .login(process.env.BOT_TOKEN)
   .then(() => {
