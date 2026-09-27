@@ -15,8 +15,8 @@
   "type": "module",
   "main": "./src/server.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node --watch src/index.js"
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
   },
   "dependencies": {
     "date-fns": "^4.4.0",

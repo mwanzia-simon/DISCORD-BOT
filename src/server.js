@@ -41,6 +41,18 @@ client.once("clientReady", (client) => {
   startReminderScheduler(client);
 });
 
+client.on("error", (error) => {
+  console.error("❌ Discord client error:", error);
+});
+
+client.on("warn", (warning) => {
+  console.warn("⚠️ Discord warning:", warning);
+});
+
+client.on("debug", (info) => {
+  console.log("🔍 Discord debug:", info);
+});
+
 client.on("messageCreate", (message) => {
   // To prevent the bot from replaying to his messages
   if (message.author.bot) return;
