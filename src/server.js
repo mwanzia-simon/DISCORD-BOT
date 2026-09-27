@@ -44,13 +44,20 @@ client.once("clientReady", (client) => {
 client.on("error", (error) => {
   console.error("❌ Discord client error:", error);
 });
-
-client.on("warn", (warning) => {
-  console.warn("⚠️ Discord warning:", warning);
+client.on("shardConnecting", (id) => {
+  console.log(`🔌 Shard ${id} connecting...`);
 });
 
-client.on("debug", (info) => {
-  console.log("🔍 Discord debug:", info);
+client.on("shardReady", (id) => {
+  console.log(`✅ Shard ${id} ready!`);
+});
+
+client.on("shardDisconnect", (event, id) => {
+  console.log(`🔴 Shard ${id} disconnected`, event);
+});
+
+client.on("shardReconnecting", (id) => {
+  console.log(`🔄 Shard ${id} reconnecting...`);
 });
 
 client.on("messageCreate", (message) => {
