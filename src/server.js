@@ -60,6 +60,12 @@ client.on("shardReconnecting", (id) => {
   console.log(`🔄 Shard ${id} reconnecting...`);
 });
 
+client.on("shardDisconnect", (event, shardId) => {
+  console.log(`🔴 Shard ${shardId} disconnected`);
+  console.log("Close code:", event.code);
+  console.log("Reason:", event.reason);
+});
+
 client.on("messageCreate", (message) => {
   // To prevent the bot from replaying to his messages
   if (message.author.bot) return;
@@ -134,10 +140,7 @@ server.listen(PORT, () => {
 
 console.log("🚀 Attempting Discord login...");
 
-console.log(
-  "BOT_TOKEN length:",
-  process.env.BOT_TOKEN?.length
-);
+console.log("BOT_TOKEN length:", process.env.BOT_TOKEN?.length);
 
 client
   .login(process.env.BOT_TOKEN)
