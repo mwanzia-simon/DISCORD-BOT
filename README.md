@@ -256,4 +256,4 @@ The goal is to make everyday academic organization easier by bringing useful stu
 
 ---
 
-**Built with Node.js, MongoDB, Discord.js and a lot of debugging. **
+**Built with Node.js, MongoDB, Discord.js and a lot of debugging.**
