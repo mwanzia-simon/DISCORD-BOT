@@ -1,4 +1,4 @@
-#  Neuron
+#  Neuron 🤖
 
 **Neuron** is a Discord-based student productivity bot designed to help university students manage their everyday academic tasks directly from Discord.
 
@@ -258,4 +258,4 @@ The goal is to make everyday academic organization easier by bringing useful stu
 
 ---
 
-**Built with Node.js, MongoDB, Discord.js and a lot of debugging. **
+**Built with Node.js, MongoDB, Discord.js and a lot of debugging.**
