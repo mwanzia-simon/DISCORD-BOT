@@ -2,6 +2,8 @@
 
 **Neuron** is a Discord-based student productivity bot designed to help university students manage their everyday academic tasks directly from Discord.
 
+![banner_image](./docs/neuron.png)
+
 It helps students keep track of **tasks, assignments, deadlines, class schedules, and reminders** without needing to leave their Discord server.
 
 ##  Features
